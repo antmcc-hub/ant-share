@@ -1,0 +1,20 @@
+{
+  "name": "ant-share",
+  "interface": {
+    "displayName": "Ant Share"
+  },
+  "plugins": [
+    {
+      "name": "ant-share",
+      "source": {
+        "source": "local",
+        "path": "."
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Productivity"
+    }
+  ]
+}

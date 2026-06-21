@@ -1,5 +1,5 @@
 ---
-name: public-spec-writer
+name: spec-writer
 metadata:
   version: "1.0.0"
   author: "Leveragentic AI"
@@ -7,7 +7,7 @@ metadata:
 description: "Turns vague requests into executable specs or lightweight run specs. Use for: spec this out, brief this up, write a run spec, goal prompt generator, delegate this to an agent. Not for executing the task directly."
 ---
 
-# Public Spec Writer
+# Spec Writer
 
 Turn vague instructions into executable specifications that an AI agent, human executor, or reviewer can act on without guessing.
 
@@ -16,8 +16,8 @@ Turn vague instructions into executable specifications that an AI agent, human e
 Base concepts are attributed to Nate B. Jones:
 
 - Specification Precision and Goal Prompt Generator patterns.
-- PromptKit #161: The Stupid Button and The Model Router.
-- PromptKit #247: Shape vs Execute, six-field briefs, and "flashlight" exclusions.
+- PromptKit #161: The Stupid Button and The Model Router: https://promptkit.natebjones.com/20260330_161_promptkit_1
+- PromptKit #247: Shape vs Execute, six-field briefs, and "flashlight" exclusions: https://promptkit.natebjones.com/20260512_247_promptkit_1
 
 Leveragentic AI additions:
 
@@ -27,6 +27,10 @@ Leveragentic AI additions:
 - Source hierarchy: primary, background, excluded.
 - Review budget and escalation rules.
 - Session architecture patterns for inline, parallel, sequential, and async execution.
+
+## Recommended Companion Use
+
+Use this skill with `session-closeout` whenever the work spans multiple agent sessions, has delegated execution, or may need later proof review. `spec-writer` defines the trail before work starts: source of truth, permission boundary, required proof, review budget, and done condition. `session-closeout` preserves the trail as completions occur: what ran, what changed, what was verified, what was deferred, and what should feed the weekly retro.
 
 ## When To Use
 
@@ -229,4 +233,3 @@ Excluded:
 - TRIGGER_POSITIVE: "Write a run spec for an agent to audit this repo."
 - TRIGGER_NEGATIVE: "Fix this typo." That should be executed directly, not routed to spec-writing.
 - OUTPUT_CHECK: Output includes source of truth, permission boundary or acceptance criteria, verification method, escalation rule, and done condition.
-

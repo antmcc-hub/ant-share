@@ -1,17 +1,39 @@
 ---
-name: public-session-closeout
+name: session-closeout
 metadata:
   version: "1.0.0"
   author: "Leveragentic AI"
   attribution: "Scrubbed public version of a Leveragentic AI session closeout pattern. Influenced by Nate B. Jones' agent maintenance and skill-readiness ideas."
-description: "Explicit-trigger session closeout. Gathers outcomes, classifies items GREEN/AMBER/RED, writes an audit, optionally deposits durable memory if OB1/Brain is connected, or asks to write a markdown closeout file via AskUserQuestion."
+description: "Explicit-trigger session closeout. Gathers outcomes, classifies items GREEN/AMBER/RED, writes an audit, optionally deposits durable memory if OB1/Brain is connected, captures deposit preferences, or asks to write a markdown closeout file via AskUserQuestion."
 ---
 
-# Public Session Closeout
+# Session Closeout
 
 This skill closes a work session without relying on memory or vibes. It gathers what happened, classifies what is safe to write, asks only for uncertain decisions, and leaves a durable audit trail.
 
 **Explicit trigger only.** Never run automatically.
+
+## Attribution
+
+Built by Leveragentic AI as a portable closeout pattern for managing overlapping agent sessions, delegated work, and durable handoffs. It is influenced by Nate B. Jones' writing on agent maintenance, skill readiness, and the need to preserve useful AI work beyond a single session.
+
+## Why It Exists
+
+Overlapping agent sessions create three recurring problems:
+
+- completions happen in one thread while follow-up happens elsewhere;
+- proof gets separated from the original spec;
+- useful corrections disappear before they can improve the next run.
+
+`session-closeout` solves that by turning the end of each session into a structured trail: completed work, evidence, open threads, dropped items, preference changes, and retro signals. It is designed to pair with `spec-writer` at the start of work and `weekly-retro` at the end of the week.
+
+Benefits:
+
+- makes agent handoffs reviewable instead of conversational;
+- prevents stale tasks from being re-promoted as current work;
+- captures user preferences about memory/deposit behavior;
+- gives weekly retros concrete evidence instead of relying on recall;
+- keeps optional memory writes separate from the closeout itself.
 
 ## Core Model
 
@@ -53,7 +75,8 @@ If the session is trivial, report:
 Before any durable memory write, determine the destination.
 
 1. If an OB1/Brain-style memory backend is connected and authorized:
-   - Ask whether the user wants memory deposits this run.
+   - Apply the user's saved deposit preference if one exists.
+   - If no saved preference exists, ask whether the user wants memory deposits this run.
    - Use `AskUserQuestion` if the answer is not already explicit.
    - If yes, write GREEN deposits with a pending/reviewable status where supported.
    - If no, skip memory deposits and use the markdown fallback if requested.
@@ -74,6 +97,49 @@ Options:
 - `Yes - write markdown closeout`
 - `No - summary only`
 - `Use a different path`
+
+## Deposit Preference Capture
+
+When the user gives feedback on automated deposits, capture it as a use preference. This preference controls future closeouts until changed.
+
+Preference values:
+
+| Preference | Behavior |
+|---|---|
+| `auto_deposit_green` | Automatically write GREEN deposits when OB1/Brain is connected. Ask only for AMBER items. |
+| `always_ask` | Ask before every memory deposit batch, even when items are GREEN. |
+| `never_deposit` | Never write memory deposits during closeout. Use markdown closeout only unless the user explicitly overrides. |
+| `ask_when_backend_changes` | Use the saved behavior for the current backend, but ask again if the memory backend changes. |
+
+Use `AskUserQuestion` when preference is missing or ambiguous:
+
+```text
+How should future closeouts handle memory deposits when OB1/Brain is connected?
+```
+
+Options:
+
+- `Auto-deposit GREEN items`
+- `Always ask first`
+- `Never deposit automatically`
+
+Store the selected preference in the durable location available to the environment:
+
+- if OB1/Brain is connected: write a preference note tagged `session-closeout-preference`;
+- if only files are available: write or update `Project/Agents/Claude Share/preferences/session-closeout.md`;
+- if neither is available: include the preference in the markdown closeout under `Use Preferences`.
+
+Preference note format:
+
+```markdown
+# Session Closeout Preference
+
+deposit_behavior: auto_deposit_green | always_ask | never_deposit | ask_when_backend_changes
+set_at: [YYYY-MM-DD]
+source: user feedback during session closeout
+applies_to: session-closeout
+review_on: [optional date or "weekly-retro"]
+```
 
 ## Gather Phases
 
@@ -258,6 +324,9 @@ If using the markdown fallback, write:
 ## Memory Deposits
 [Skipped / Written to OB1 or Brain / Not available]
 
+## Use Preferences
+[Deposit behavior preference captured or unchanged]
+
 ## Skill And Workflow Notes
 
 ## Patterns And Failures
@@ -278,6 +347,7 @@ If using the markdown fallback, write:
 - Ask only for AMBER items.
 - Use `AskUserQuestion` when the memory destination is unclear.
 - Make OB1/Brain deposits optional, never assumed.
+- Capture explicit user feedback on deposit behavior as a future use preference.
 - Use markdown fallback when no memory backend is connected or the user declines memory deposits.
 - Never silently omit RED items; list the reason.
 - Never publish, send, delete, or change access without explicit approval.
@@ -289,6 +359,7 @@ If using the markdown fallback, write:
 - Do not write private project details into public artifacts.
 - Do not write to memory if OB1/Brain is unavailable or not authorized.
 - Do not treat the markdown fallback as lower quality; it is the durable record when memory is absent.
+- Do not repeatedly ask about deposits after the user has set a preference unless the backend, risk level, or user instruction changes.
 
 ## Final Confirmation
 
@@ -298,6 +369,7 @@ Session Closeout Complete
 Tasks/status: [updated/skipped]
 Markdown closeout: [path/skipped]
 Memory deposits: [written/skipped/not available]
+Deposit preference: [unchanged/captured/updated]
 Retrospectives: [count]
 Patterns: [count]
 Dropped: [count]
@@ -319,4 +391,3 @@ context_cost: "medium"
 - TRIGGER_POSITIVE: "close out this session" / "archive this chat" / "wrap up session"
 - TRIGGER_NEGATIVE: "summarize this chat" should produce a summary only, not durable writes.
 - OUTPUT_CHECK: Closeout includes GREEN/AMBER/RED classification, optional OB1/Brain deposit decision, markdown fallback path decision, dropped-item reasons, and final safe-to-archive statement.
-

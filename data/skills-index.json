@@ -1,0 +1,57 @@
+{
+  "meta": {
+    "repo": "antmcc-hub/ant-share",
+    "updated": "2026-06-21T01:49:25.262Z",
+    "helper": "scripts/build-brain-viewer-index.mjs"
+  },
+  "plugins": [
+    "ant-share"
+  ],
+  "skills": {
+    "session-closeout": {
+      "version": "1.0.0",
+      "desc": "Explicit-trigger session closeout. Gathers outcomes, classifies items GREEN/AMBER/RED, writes an audit, optionally deposits durable memory if OB1/Brain is connected, captures deposit preferences, or asks to write a markdown closeout file via AskUserQuestion.",
+      "path": "skills/session-closeout/SKILL.md",
+      "plugin": "ant-share",
+      "col": "workflow",
+      "status": "live",
+      "profiles": [
+        "Agent workflow"
+      ]
+    },
+    "spec-writer": {
+      "version": "1.0.0",
+      "desc": "Turns vague requests into executable specs or lightweight run specs. Use for: spec this out, brief this up, write a run spec, goal prompt generator, delegate this to an agent. Not for executing the task directly.",
+      "path": "skills/spec-writer/SKILL.md",
+      "plugin": "ant-share",
+      "col": "workflow",
+      "status": "live",
+      "profiles": [
+        "Agent workflow"
+      ]
+    },
+    "weekly-retro": {
+      "version": "1.0.0",
+      "desc": "Weekly retro for overlapping agent sessions. Reviews session closeouts, specs, proof trails, preferences, failures, and improvement candidates. Use for: weekly retro, weekly review, review this week's agent work, improve the skill system.",
+      "path": "skills/weekly-retro/SKILL.md",
+      "plugin": "ant-share",
+      "col": "workflow",
+      "status": "live",
+      "profiles": [
+        "Agent workflow"
+      ]
+    }
+  },
+  "chain": [
+    "spec-writer",
+    "session-closeout",
+    "weekly-retro"
+  ],
+  "pmap": {
+    "Agent workflow": [
+      "session-closeout",
+      "spec-writer",
+      "weekly-retro"
+    ]
+  }
+}

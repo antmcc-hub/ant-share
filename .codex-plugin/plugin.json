@@ -1,0 +1,41 @@
+{
+  "name": "ant-share",
+  "version": "0.1.0",
+  "description": "Portable agent workflow skills for specification, session closeout, and weekly retros.",
+  "author": {
+    "name": "Leveragentic AI",
+    "email": "ant@leveragentic.ai",
+    "url": "https://leveragentic.ai"
+  },
+  "homepage": "https://github.com/antmcc-hub/ant-share",
+  "repository": "https://github.com/antmcc-hub/ant-share",
+  "license": "MIT",
+  "keywords": [
+    "agents",
+    "skills",
+    "specification",
+    "closeout",
+    "retro"
+  ],
+  "skills": "./skills/",
+  "mcpServers": "./.mcp.json",
+  "apps": "./.app.json",
+  "interface": {
+    "displayName": "Ant Share",
+    "shortDescription": "Agent workflow skills for specs, closeouts, and retros.",
+    "longDescription": "Portable skills for writing executable specs, closing out overlapping agent sessions, preserving proof trails, capturing preferences, and running weekly retros.",
+    "developerName": "Leveragentic AI",
+    "category": "Productivity",
+    "capabilities": [
+      "Read",
+      "Write"
+    ],
+    "websiteURL": "https://github.com/antmcc-hub/ant-share",
+    "defaultPrompt": [
+      "Spec this out.",
+      "Close out this session.",
+      "Run the weekly retro."
+    ],
+    "brandColor": "#2d6cdf"
+  }
+}

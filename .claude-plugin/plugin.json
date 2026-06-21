@@ -1,0 +1,16 @@
+{
+  "name": "ant-share",
+  "version": "0.1.0",
+  "description": "Portable agent workflow skills for specification, session closeout, and weekly retros.",
+  "author": {
+    "name": "Leveragentic AI",
+    "url": "https://leveragentic.ai"
+  },
+  "keywords": [
+    "agents",
+    "skills",
+    "specification",
+    "closeout",
+    "retro"
+  ]
+}
