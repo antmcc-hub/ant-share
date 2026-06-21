@@ -4,6 +4,8 @@ Public, scrubbed agent workflow patterns shared by Ant McCallum.
 
 This repository contains shareable skill drafts and notes that preserve the useful operating patterns while removing private project context, client references, internal infrastructure paths, and deployment-specific assumptions.
 
+The intent is community sharing and education. Use these skills as examples of how to build, customize, package, and share your own agent skills. They are starting points, not fixed products.
+
 ## Contents
 
 - `slack/spec-writer-provenance-response.md` - Slack-ready provenance breakdown for the spec-writer/session-planning pattern.
@@ -25,6 +27,47 @@ This repo includes the core triple packaging scaffolding:
 Run `node scripts/build-brain-viewer-index.mjs` to refresh the Brain Viewer helper index.
 
 See `docs/publishing-rules.md` for the full publishing boundary and scrub checklist.
+
+## Customize For Your Context
+
+You should adapt these skills before using them in a real team. Replace the generic placeholders with your own:
+
+- memory system or knowledge base;
+- task tracker and project folders;
+- approval rules;
+- review cadence;
+- preferred output formats;
+- model-routing conventions;
+- internal vocabulary and examples;
+- team roles and ownership boundaries.
+
+Keep the structure, but make the behavior yours. The highest-value skills usually encode how a specific person or team actually works.
+
+## Build A Skill Catalogue
+
+Skills become easier to adopt when people can see what exists, when to use each one, and how they connect. This repo includes `scripts/build-brain-viewer-index.mjs` to generate a simple `data/skills-index.json` file that can power an internal catalogue page.
+
+A common pattern:
+
+1. Store skills in a Git repo.
+2. Add marketplace/plugin metadata so tools can install them.
+3. Generate a skill index from `SKILL.md` frontmatter.
+4. Publish an internal catalogue webpage with Vercel, Cloudflare Pages, GitHub Pages, or another static host.
+5. Show each skill's trigger phrases, output contract, owner, maturity, and related skills.
+
+The catalogue does not need to be complicated. A searchable webpage that answers "what skill should I use for this?" is often enough to make the library real for a team.
+
+## Share Back
+
+If you build from these examples, consider sharing a scrubbed version of your own pattern. Good shared skills usually include:
+
+- a clear trigger description;
+- an input contract;
+- step-by-step processing rules;
+- a predictable output contract;
+- failure modes;
+- attribution for borrowed ideas;
+- a short note on what was customized for your context.
 
 ## Attribution
 
