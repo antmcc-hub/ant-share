@@ -182,7 +182,7 @@ Default to a report-only retro. Mutating writes require explicit approval:
 
 If no memory backend is connected, offer a markdown output path:
 
-`Project/Agents/Claude Share/weekly-retros/weekly-retro-[YYYY-MM-DD].md`
+`agent-share/weekly-retros/weekly-retro-[YYYY-MM-DD].md`
 
 Use `AskUserQuestion` if the destination is unclear.
 
@@ -199,4 +199,3 @@ Use `AskUserQuestion` if the destination is unclear.
 - TRIGGER_POSITIVE: "Run the weekly retro on this week's agent work."
 - TRIGGER_NEGATIVE: "Plan my week." That is planning; ask whether to run retro first if closeout trails exist.
 - OUTPUT_CHECK: Output includes reviewed sources, proof gaps, preference review, repeated patterns, improvement queue, and carry-forward items.
-

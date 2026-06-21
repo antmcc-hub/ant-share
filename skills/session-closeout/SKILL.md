@@ -83,13 +83,13 @@ Before any durable memory write, determine the destination.
 
 2. If no OB1/Brain-style backend is connected:
    - Use `AskUserQuestion` to ask whether to write a markdown closeout file.
-   - Default destination: `Project/Agents/Claude Share/session-closeouts/`.
+   - Default destination: a shared project workspace folder such as `agent-share/session-closeouts/`.
    - If that path does not exist, ask for the correct shared project folder or write the file in the current project under `session-closeouts/`.
 
 Suggested `AskUserQuestion` prompt:
 
 ```text
-No OB1/Brain memory backend is available. Should I write this closeout as a markdown file in Project/Agents/Claude Share/session-closeouts/?
+No OB1/Brain memory backend is available. Should I write this closeout as a markdown file in the shared project workspace under session-closeouts/?
 ```
 
 Options:
@@ -126,7 +126,7 @@ Options:
 Store the selected preference in the durable location available to the environment:
 
 - if OB1/Brain is connected: write a preference note tagged `session-closeout-preference`;
-- if only files are available: write or update `Project/Agents/Claude Share/preferences/session-closeout.md`;
+- if only files are available: write or update a shared project preference file such as `agent-share/preferences/session-closeout.md`;
 - if neither is available: include the preference in the markdown closeout under `Use Preferences`.
 
 Preference note format:
