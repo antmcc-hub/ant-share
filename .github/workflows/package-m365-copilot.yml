@@ -1,0 +1,49 @@
+name: Package M365 Copilot Skills
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'skills/**'
+      - '.claude-plugin/plugin.json'
+      - 'scripts/package-copilot-cowork.py'
+      - '.github/workflows/package-m365-copilot.yml'
+  workflow_dispatch:
+
+jobs:
+  package:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+
+      - name: Set up Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: '3.11'
+
+      - name: Build Microsoft 365 app packages
+        run: |
+          rm -rf dist/m365
+          python3 scripts/package-copilot-cowork.py
+
+      - name: Verify package ZIPs
+        run: |
+          set -euo pipefail
+          shopt -s nullglob
+          packages=(dist/m365/*.zip)
+          if [ "${#packages[@]}" -eq 0 ]; then
+            echo "No M365 package ZIPs were generated" >&2
+            exit 1
+          fi
+          for package in "${packages[@]}"; do
+            unzip -t "$package" >/dev/null
+            echo "verified: $package"
+          done
+
+      - name: Upload M365 app packages
+        uses: actions/upload-artifact@v4
+        with:
+          name: m365-copilot-skill-packages
+          path: dist/m365/*.zip
+          if-no-files-found: error
+          retention-days: 30
