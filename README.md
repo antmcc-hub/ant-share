@@ -24,6 +24,11 @@ This repo includes the core triple packaging scaffolding:
 - `.codex-plugin/plugin.json` for Codex-style plugin metadata.
 - `.app.json` and `.mcp.json` placeholders for app/MCP expansion.
 
+The Microsoft 365 Copilot Cowork package is published as a GitHub Release asset:
+
+- Download `ant-share-m365-copilot-cowork.zip` from the `m365-copilot-latest` release.
+- Upload that ZIP in Microsoft 365 Tenant Admin to sideload the skills into Copilot Cowork.
+
 Run `node scripts/build-brain-viewer-index.mjs` to refresh the Brain Viewer helper index.
 
 See `docs/publishing-rules.md` for the full publishing boundary and scrub checklist.

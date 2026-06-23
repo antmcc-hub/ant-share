@@ -10,6 +10,9 @@ on:
       - '.github/workflows/package-m365-copilot.yml'
   workflow_dispatch:
 
+permissions:
+  contents: write
+
 jobs:
   package:
     runs-on: ubuntu-latest
@@ -47,3 +50,34 @@ jobs:
           path: dist/m365/*.zip
           if-no-files-found: error
           retention-days: 30
+
+      - name: Publish latest release package
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+
+          release_tag="m365-copilot-latest"
+          asset_name="ant-share-m365-copilot-cowork.zip"
+          cp dist/m365/ant-share.zip "$asset_name"
+
+          cat > release-notes.md <<'NOTES'
+          Microsoft 365 app package for sideloading ant-share skills into Copilot Cowork.
+
+          Upload `ant-share-m365-copilot-cowork.zip` in Microsoft 365 Tenant Admin.
+          NOTES
+
+          git tag -f "$release_tag" "$GITHUB_SHA"
+          git push origin "refs/tags/$release_tag" --force
+
+          if gh release view "$release_tag" >/dev/null 2>&1; then
+            gh release upload "$release_tag" "$asset_name" --clobber
+            gh release edit "$release_tag" \
+              --title "Latest M365 Copilot Cowork package" \
+              --notes-file release-notes.md
+          else
+            gh release create "$release_tag" "$asset_name" \
+              --target "$GITHUB_SHA" \
+              --title "Latest M365 Copilot Cowork package" \
+              --notes-file release-notes.md
+          fi
