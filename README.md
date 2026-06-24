@@ -24,8 +24,9 @@ This repo includes the core triple packaging scaffolding:
 - `.codex-plugin/plugin.json` for Codex-style plugin metadata.
 - `.app.json` and `.mcp.json` placeholders for app/MCP expansion.
 
-The Microsoft 365 Copilot Cowork package is published as a GitHub Release asset:
+The Microsoft 365 Copilot Cowork package zip is pinned in this repository under `dist/m365/` and also published as a GitHub Release asset:
 
+- Download `dist/m365/ant-share.zip` directly from the repo, or
 - Download `ant-share-m365-copilot-cowork.zip` from the `m365-copilot-latest` release.
 - Upload that ZIP in Microsoft 365 Tenant Admin to sideload the skills into Copilot Cowork.
 

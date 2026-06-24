@@ -1,1 +1,4 @@
-dist/
+dist/*
+!dist/m365/
+dist/m365/*/
+!dist/m365/*.zip
